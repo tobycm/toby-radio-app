@@ -20,6 +20,7 @@ function fetchmetadata() {
 export default function App() {
     return (
       <Container maxwidth="false">
+        <link rel="stylesheet" href="css/style.css"/>
         <Box sx={{ flexGrow: 1 }}>
           <AppBar position="static">
             <Toolbar>
