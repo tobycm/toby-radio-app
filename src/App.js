@@ -1,64 +1,79 @@
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import { Container } from "@mui/material";
-import Button from "@mui/material/Button";
+import { Container, TableRow } from "@mui/material";
 import { Select } from '@mui/material';
+import { FormControl } from "@mui/material";
+import { InputLabel } from "@mui/material";
+import { TableContainer } from "@mui/material";
+import { Table } from "@mui/material";
+import { TableCell } from "@mui/material";
+import { Paper } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
+import ReactAudioPlayer from 'react-audio-player';
 
-var test = 30;
+function fetchMetadata(name) {
+  return fetch('https://radio.tobycm.ga/api/' + name)
+    .then(function(response) { 
+      return response.json()
+     });
+}
 
-function fetchmetadata() {
-    fetch('/api/metadata')
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
+function loadRadio(choice) {
+  console.log(choice);
+  metadataLoop(choice.target.value);
+  
+}
+
+function metadataLoop(name) {
+
+  const metadata = fetchMetadata(name);
+  console.log(metadata);
+  const artist_text = document.querySelector('#artist_text');
+  const title_text = document.querySelector('#title_text');
+  artist_text.replaceChildren("Artist: " + metadata.artist);
+  title_text.replaceChildren("Song: " + metadata.song);
+
+  const audio_player = document.querySelector('#audio_player');
+  audio_player.src = "https://radio.tobycm.ga/" + name;
+
 }
 
 export default function App() {
     return (
       <Container maxwidth="false">
         <link rel="stylesheet" href="css/style.css"/>
-        <Box sx={{ flexGrow: 1 }}>
-          <AppBar position="static">
-            <Toolbar>
-              <IconButton
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-                sx={{ mr: 2 }}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                News
-              </Typography>
-              <Button color="inherit">Login</Button>
-            </Toolbar>
-          </AppBar>
-        </Box>
-  
-        <br />
 
-        <Button variant="contained" color="primary">
-          Hello World
-        </Button>
+        <FormControl fullWidth>
+          <InputLabel id="radio-select-name">Age</InputLabel>
+            <Select
+              labelId="radio-select-name"
+              value=""
+              label="Age"
+              onChange={loadRadio}
+            >
+              <MenuItem value={"edm"}>EDM</MenuItem>
+              <MenuItem value={"lofi"}>Lofi</MenuItem>
+              <MenuItem value={"moody"}>Moody</MenuItem>
+            </Select>
+        </FormControl>
+        <br/>
+        <ReactAudioPlayer
+          src = ""
+          controls
+          id = "audio_player"
+        />
 
-        <br />
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableRow>
+              <TableCell id="artist_text">artist: </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell id="title_text">Title: </TableCell>
+            </TableRow>
+          </Table>
+        </TableContainer>
+        
 
-        <Select
-            value = {test}
-            label = "Select"
-            onChange = {fetchmetadata}
-        >
-            <MenuItem value = {30}>30</MenuItem>
-            <MenuItem value = {40}>40</MenuItem>
-            <MenuItem value = {50}>50</MenuItem>
-            <MenuItem value = {60}>60</MenuItem>
-        </Select>
+
       </Container>
       
   
