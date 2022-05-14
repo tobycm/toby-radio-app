@@ -38,7 +38,7 @@ function metadataLoop(name) {
 
 export default function App() {
     return (
-      <Container maxwidth="false">
+      <Container>
         <link rel="stylesheet" href="css/style.css"/>
 
         <FormControl fullWidth>
@@ -54,27 +54,31 @@ export default function App() {
               <MenuItem value={"moody"}>Moody</MenuItem>
             </Select>
         </FormControl>
-        <br/>
-        <ReactAudioPlayer
-          src = ""
-          controls
-          id = "audio_player"
-        />
+        <Container>
+          <ReactAudioPlayer
+            src = ""
+            controls
+            id = "audio_player"
+          />
 
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableRow>
-              <TableCell id="artist_text">artist: </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell id="title_text">Title: </TableCell>
-            </TableRow>
-          </Table>
-        </TableContainer>
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableRow>
+                <TableCell id="artist_text">Artist: </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell id="title_text">Title: </TableCell>
+              </TableRow>
+            </Table>
+          </TableContainer>
+        </Container>
+
         
 
 
       </Container>
+
+      
       
   
     );
