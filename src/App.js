@@ -9,22 +9,21 @@ import { Paper } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
 import ReactAudioPlayer from 'react-audio-player';
 
-function fetchMetadata(name) {
-  return fetch('https://radio.tobycm.ga/api/' + name)
-    .then(function(response) { 
-      return response.json()
-     });
+async function fetchMetadata(name) {
+  const response = await fetch("https://radio.tobycm.ga/api/" + name);
+  const json = await response.json();
+  return json;
 }
 
-function loadRadio(choice) {
+async function loadRadio(choice) {
   console.log(choice);
-  metadataLoop(choice.target.value);
+  await metadataLoop(choice.target.value);
   
 }
 
-function metadataLoop(name) {
+async function metadataLoop(name) {
 
-  const metadata = fetchMetadata(name);
+  const metadata = await fetchMetadata(name);
   console.log(metadata);
   const artist_text = document.querySelector('#artist_text');
   const title_text = document.querySelector('#title_text');
@@ -42,11 +41,11 @@ export default function App() {
         <link rel="stylesheet" href="css/style.css"/>
 
         <FormControl fullWidth>
-          <InputLabel id="radio-select-name">Age</InputLabel>
+          <InputLabel id="radio-select-name">Station</InputLabel>
             <Select
               labelId="radio-select-name"
               value=""
-              label="Age"
+              label="Station"
               onChange={loadRadio}
             >
               <MenuItem value={"edm"}>EDM</MenuItem>
