@@ -1,3 +1,27 @@
 body {
     background-color: #cdf5f9;
     }
+
+.radio_station {
+    display: inline-block;
+}
+
+#song_info_table {
+    width: 60%;
+    margin: 10px;
+    position: relative;
+}
+
+#audio_player {
+    margin-top: 10px;
+}
+
+#radio-select-name {
+    width: 20%;
+    
+}
+
+#left_page {
+    width: 30%;
+    position: left;
+}

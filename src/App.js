@@ -8,7 +8,6 @@ async function fetchMetadata(name) {
 }
 
 async function loadRadio(choice) {
-  console.log(choice);
   await metadataLoop(choice.target.value);
   
 }
@@ -16,14 +15,14 @@ async function loadRadio(choice) {
 async function metadataLoop(name) {
 
   const metadata = await fetchMetadata(name);
-  console.log(metadata);
   const artist_text = document.querySelector('#artist_text');
   const title_text = document.querySelector('#title_text');
   artist_text.replaceChildren("Artist: " + metadata.artist);
-  title_text.replaceChildren("Song: " + metadata.song);
+  title_text.replaceChildren("Title: " + metadata.song);
 
   const audio_player = document.querySelector('#audio_player');
   audio_player.src = "https://radio.tobycm.ga/" + name;
+  audio_player.play();
 
 }
 
@@ -31,7 +30,7 @@ export default function App() {
     return (
       <Container>
         <link rel="stylesheet" href="css/style.css"/>
-
+        <div className="radio_station" id="left_page">
         <FormControl fullWidth>
           <InputLabel id="radio-select-name">Station</InputLabel>
             <Select
@@ -45,28 +44,27 @@ export default function App() {
               <MenuItem value={"moody"}>Moody</MenuItem>
             </Select>
         </FormControl>
-        <Container>
-          <ReactAudioPlayer
-            src = ""
-            controls
-            id = "audio_player"
-          />
+        <ReactAudioPlayer
+          src = ""
+          controls
+          id = "audio_player"
+        />
+        </div>
 
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead>
-              <TableRow>
-                <TableCell id="artist_text">Artist: </TableCell>
-              </TableRow>
-              </TableHead>
-              <TableBody>
-              <TableRow>
-                <TableCell id="title_text">Title: </TableCell>
-              </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Container>
+        <TableContainer component={Paper} className="radio_station" id="song_info_table">
+          <Table sx={{ minWidth: 250 }} aria-label="simple table">
+            <TableHead>
+            <TableRow>
+              <TableCell id="title_text">Title: </TableCell>
+            </TableRow>
+            </TableHead>
+            <TableBody>
+            <TableRow>
+              <TableCell id="artist_text">Artist: </TableCell>
+            </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
 
         
 
