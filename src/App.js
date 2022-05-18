@@ -1,12 +1,4 @@
-import { Container, TableRow } from "@mui/material";
-import { Select } from '@mui/material';
-import { FormControl } from "@mui/material";
-import { InputLabel } from "@mui/material";
-import { TableContainer } from "@mui/material";
-import { Table } from "@mui/material";
-import { TableCell } from "@mui/material";
-import { Paper } from "@mui/material";
-import MenuItem from '@mui/material/MenuItem';
+import { Container, TableRow, Select, FormControl, InputLabel, TableContainer, Table, TableHead, TableBody, TableCell, Paper, MenuItem } from "@mui/material";
 import ReactAudioPlayer from 'react-audio-player';
 
 async function fetchMetadata(name) {
@@ -62,12 +54,16 @@ export default function App() {
 
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
               <TableRow>
                 <TableCell id="artist_text">Artist: </TableCell>
               </TableRow>
+              </TableHead>
+              <TableBody>
               <TableRow>
                 <TableCell id="title_text">Title: </TableCell>
               </TableRow>
+              </TableBody>
             </Table>
           </TableContainer>
         </Container>
