@@ -1,6 +1,8 @@
 import { Container, TableRow, Select, FormControl, InputLabel, TableContainer, Table, TableHead, TableBody, TableCell, Paper, MenuItem } from "@mui/material";
 import ReactAudioPlayer from 'react-audio-player';
 
+var timer = undefined;
+
 async function fetchMetadata(name) {
   const response = await fetch("https://radio.tobycm.ga/api/" + name);
   const json = await response.json();
@@ -8,8 +10,19 @@ async function fetchMetadata(name) {
 }
 
 async function loadRadio(choice) {
-  await metadataLoop(choice.target.value);
+
+  if (timer !== undefined) {
+    clearInterval(timer);
+  }
+
+  timer = setInterval(async () => {
+    await metadataLoop(choice.target.value);
+  }, 2000);
   
+  const audio_player = document.querySelector('#audio_player');
+  audio_player.src = "https://radio.tobycm.ga/" + choice.target.value;
+  audio_player.play();
+
 }
 
 async function metadataLoop(name) {
@@ -19,10 +32,6 @@ async function metadataLoop(name) {
   const title_text = document.querySelector('#title_text');
   artist_text.replaceChildren("Artist: " + metadata.artist);
   title_text.replaceChildren("Title: " + metadata.song);
-
-  const audio_player = document.querySelector('#audio_player');
-  audio_player.src = "https://radio.tobycm.ga/" + name;
-  audio_player.play();
 
 }
 
