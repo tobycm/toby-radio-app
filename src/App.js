@@ -2,8 +2,13 @@ import { Container, TableRow, Select, FormControl, InputLabel, TableContainer, T
 import ReactAudioPlayer from 'react-audio-player';
 
 var timer = undefined;
+var next_update = 0;
 
 async function fetchMetadata(name) {
+  const secondsSinceEpoch = Math.round(Date.now() / 1000);
+  if (secondsSinceEpoch < next_update) {
+    return "skip";
+  }
   const response = await fetch("https://radio.tobycm.ga/api/" + name);
   const json = await response.json();
   return json;
@@ -17,7 +22,7 @@ async function loadRadio(choice) {
 
   timer = setInterval(async () => {
     await metadataLoop(choice.target.value);
-  }, 2000);
+  }, 1000);
   
   const audio_player = document.querySelector('#audio_player');
   audio_player.src = "https://radio.tobycm.ga/" + choice.target.value;
@@ -28,10 +33,15 @@ async function loadRadio(choice) {
 async function metadataLoop(name) {
 
   const metadata = await fetchMetadata(name);
+  if (metadata === "skip") {
+    return;
+  }
   const artist_text = document.querySelector('#artist_text');
   const title_text = document.querySelector('#title_text');
   artist_text.replaceChildren("Artist: " + metadata.artist);
   title_text.replaceChildren("Title: " + metadata.song);
+  next_update = metadata.next_update;
+  console.log(metadata.duration);
 
 }
 
