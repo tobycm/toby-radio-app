@@ -20,6 +20,8 @@ async function loadRadio(choice) {
     clearInterval(timer);
   }
 
+  next_update = 0;
+
   timer = setInterval(async () => {
     await metadataLoop(choice.target.value);
   }, 1000);
